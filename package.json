@@ -1,6 +1,6 @@
 {
   "name": "qb-src",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functions for working with arrays of bytes (Array and Uint8Array)",
   "homepage": "https://github.com/quicbit-js/qb-src",
   "url": "https://github.com/quicbit-js/qb-src/issues",
@@ -24,6 +24,10 @@
     "quicbit",
     "data",
     "performance"
+  ],
+  "files": [
+    "index.js",
+    "test.js"
   ],
   "author": "Matthew Voss",
   "license": "ISC"
