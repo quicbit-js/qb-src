@@ -1,6 +1,6 @@
 {
   "name": "qb-src",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Functions for working with arrays of bytes (Array and Uint8Array)",
   "homepage": "https://github.com/quicbit-js/qb-src",
   "url": "https://github.com/quicbit-js/qb-src/issues",
@@ -8,8 +8,8 @@
   "repository": "quicbit-js/qb-src",
   "devDependencies": {
     "qb-utf8-ez": "^3.1.1",
-    "tape": "^4.8.0",
-    "test-kit": "^2.7.2"
+    "tape": "^4.9.1",
+    "test-kit": "^2.8.0"
   },
   "scripts": {
     "test": "tape test.js",

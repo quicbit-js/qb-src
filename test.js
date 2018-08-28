@@ -137,23 +137,24 @@ test('index_of errors', function (t) {
 
 test('cmp', function (t) {
     t.table_assert([
-        [ 'src1',   'off1',     'src2',     'off2', 'n', 'exp' ],
-        [ 'zbc',    0,          'abz',      0,      3,    1 ],
-        [ 'zbc',    1,          'abz',      1,      2,    -1 ],
-        [ 'zbc',    2,          'abz',      2,      1,    -1 ],
-        [ 'zbc',    1,          'abz',      1,      1,    0 ],
-    ], function (src1, off1, src2, off2, n) {
-        return qbsrc.cmp(utf8.buffer(src1), off1, utf8.buffer(src2), off2, n)
+        [ 'src1', 'off1', 'lim1', 'src2', 'off2', 'lim2', 'n',  'exp' ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      null, 0 ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      0,    0 ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      1,    0 ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      4,    0 ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      5,    0 ],
+        [ 'zabz', 0,      4,      'zabz', 1,      4,      5,    1 ],
+        [ 'zabz', 0,      4,      'zabz', 2,      4,      5,    1 ],
+        [ 'zabz', 0,      4,      'zabz', 3,      4,      5,    1 ],
+        [ 'zabz', 0,      4,      'zabz', 4,      4,      5,    1 ],
+        [ 'zabz', 0,      4,      'zabz', 5,      4,      5,    1 ],        // negative range
+        [ 'zabz', 1,      4,      'zabz', 0,      4,      5,    -1 ],
+        [ 'zabz', 2,      4,      'zabz', 0,      4,      5,    -1 ],
+        [ 'zabz', 2,      4,      'zabz', 0,      4,      1,    -1 ],
+        [ 'zabz', 2,      3,      'zabz', 2,      4,      9,    -1 ],
+    ], function (src1, off1, lim1, src2, off2, lim2, n) {
+        return qbsrc.cmp(utf8.buffer(src1), off1, lim1, utf8.buffer(src2), off2, lim2, n)
     })
-})
-
-test('cmp errors', function (t) {
-    t.table_assert([
-        [ 'src1',   'off1',     'src2',     'off2', 'n', 'exp' ],
-        [ 'abc',    0,          'abz',      0,      0,    /cannot compare nothing/ ],
-    ], function (src1, off1, src2, off2, n) {
-        return qbsrc.cmp(utf8.buffer(src1), off1, utf8.buffer(src2), off2, n)
-    }, {assert: 'throws'})
 })
 
 test('context_str', function (t) {

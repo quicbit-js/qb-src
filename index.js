@@ -74,14 +74,25 @@ function index_of (src, off, lim, bsrc, boff, blim) {
     return -1
 }
 
-function cmp (src1, off1, src2, off2, n) {
-    n > 0 || err('cannot compare nothing (n=0)')
+var MAXINT = Math.pow(2, 53) - 1
+
+function cmp (src1, off1, lim1, src2, off2, lim2, nbytes) {
+    if (nbytes == null) { nbytes = MAXINT }
+    var len1 = lim1 - off1
+    var len2 = lim2 - off2
+    var min = len1 < len2 ? len1 : len2
+    var n = nbytes < min ? nbytes : min
+
     for (var i=0; i<n; i++) {
         if (src1[off1 + i] !== src2[off2 + i]) {
             return src1[off1 + i] > src2[off2 + i] ? 1 : -1
         }
     }
-    return 0
+    if (nbytes <= n || len1 === len2) {
+        return 0
+    } else {
+        return len1 > len2 ? 1 : -1     // longest is greater
+    }
 }
 
 // return a portion of the buffer as a string with context information selecting between off and lim and
