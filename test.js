@@ -137,23 +137,31 @@ test('index_of errors', function (t) {
 
 test('cmp', function (t) {
     t.table_assert([
-        [ 'src1', 'off1', 'lim1', 'src2', 'off2', 'lim2', 'n',  'exp' ],
-        [ 'zabz', 0,      4,      'zabz', 0,      4,      null, 0 ],
-        [ 'zabz', 0,      4,      'zabz', 0,      4,      0,    0 ],
-        [ 'zabz', 0,      4,      'zabz', 0,      4,      1,    0 ],
-        [ 'zabz', 0,      4,      'zabz', 0,      4,      4,    0 ],
-        [ 'zabz', 0,      4,      'zabz', 0,      4,      5,    0 ],
-        [ 'zabz', 0,      4,      'zabz', 1,      4,      5,    1 ],
-        [ 'zabz', 0,      4,      'zabz', 2,      4,      5,    1 ],
-        [ 'zabz', 0,      4,      'zabz', 3,      4,      5,    1 ],
-        [ 'zabz', 0,      4,      'zabz', 4,      4,      5,    1 ],
-        [ 'zabz', 0,      4,      'zabz', 5,      4,      5,    1 ],        // negative range
-        [ 'zabz', 1,      4,      'zabz', 0,      4,      5,    -1 ],
-        [ 'zabz', 2,      4,      'zabz', 0,      4,      5,    -1 ],
-        [ 'zabz', 2,      4,      'zabz', 0,      4,      1,    -1 ],
-        [ 'zabz', 2,      3,      'zabz', 2,      4,      9,    -1 ],
-    ], function (src1, off1, lim1, src2, off2, lim2, n) {
-        return qbsrc.cmp(utf8.buffer(src1), off1, lim1, utf8.buffer(src2), off2, lim2, n)
+        [ 'src1', 'off1', 'lim1', 'src2', 'off2', 'lim2', 'exp' ],
+        [ 'a',    0,      0,      '',     0,      0,      [ 0, 0 ] ],
+        [ 'a',    0,      1,      '',     0,      0,      [ 1, -1 ] ],
+        [ '',     0,      0,      'a',    0,      1,      [ -1, 1 ] ],
+        [ 'aba',  0,      3,      'aba_', 0,      4,      [ -1, 1 ] ],
+        [ 'aba',  1,      3,      'aba_', 1,      3,      [ 0, 0 ] ],
+        [ 'aba',  1,      3,      'aba_', 1,      4,      [ -1, 1 ] ],
+        [ 'zabz', 0,      4,      'zabz', 0,      4,      [ 0, 0 ] ],
+        [ 'zabz', 0,      4,      'zabz', 1,      4,      [ 1, -1 ] ],
+        [ 'zabz', 0,      4,      'zabz', 2,      4,      [ 1, -1 ] ],
+        [ 'zabz', 0,      4,      'zabz', 3,      4,      [ 1, -1 ] ],
+        [ 'zabz', 0,      4,      'zabz', 4,      4,      [ 1, -1 ] ],
+        '# negative range',
+        [ 'zabz', 0,      4,      'zabz', 5,      4,      [ 1, -1 ] ],
+        [ 'zabz', 1,      4,      'zabz', 0,      4,      [ -1, 1 ] ],
+        [ 'zabz', 2,      4,      'zabz', 0,      4,      [ -1, 1 ] ],
+        [ 'zabz', 2,      4,      'zabz', 0,      4,      [ -1, 1 ] ],
+        [ 'zabz', 2,      3,      'zabz', 2,      4,      [ -1, 1 ] ],
+    ], function (src1, off1, lim1, src2, off2, lim2) {
+        var s1 = utf8.buffer(src1)
+        var s2 = utf8.buffer(src2)
+        return [
+            qbsrc.cmp(s1, off1, lim1, s2, off2, lim2),
+            qbsrc.cmp(s2, off2, lim2, s1, off1, lim1),
+        ]
     })
 })
 
